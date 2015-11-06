@@ -33,7 +33,7 @@
 */
 void print_cell_pattern(cell_t cell){
     if (cell) {
-        char binary[7]; 
+        char binary[7];
         int counter = 0;
         for (int i = 32; i > 0; i >>= 1) {
             binary[counter] =(cell & i) ? '1' : '0';
@@ -152,7 +152,7 @@ void initialize_english_word(char* string, letter_t* letter_array, int num_lette
     word->num_letters = num_letters;
     word->language_of_origin = ENGLISH;
     word->curr_letter = 0;
-    word->curr_glyph = -1;
+    word->curr_cell = -1;
 }
 
 /**
@@ -214,7 +214,7 @@ int parse_string_into_eng_word(char* string, word_t* word) {
     word->letters = letters_in_word;
     word->num_letters = num_cells;      // length of Braille representation of word
     word->curr_letter = 0;
-    word->curr_glyph = -1;
+    word->curr_cell = -1;
     word->language_of_origin = ENGLISH;
     return 1;
 }
@@ -237,9 +237,9 @@ void word_to_cell_array(word_t* word, cell_t* arr){
 }
 
 /**
-* Each word contains curr_letter and curr_glyph indices to
+* Each word contains curr_letter and curr_cell indices to
 * represent the cell we're about to access. Increment_word_index
-* increments curr_glyph, if we're not already at the last cell
+* increments curr_cell, if we're not already at the last cell
 * in the curr_letter, or curr_letter if we are.
 * @param The word struct.
 * @return Void; function modifies word.
@@ -247,26 +247,26 @@ void word_to_cell_array(word_t* word, cell_t* arr){
 */
 void increment_word_index(word_t* word) {
     letter_t this_letter = word->letters[word->curr_letter];
-    if (word->curr_glyph < this_letter.num_cells - 1)
-        word->curr_glyph++;
+    if (word->curr_cell < this_letter.num_cells - 1)
+        word->curr_cell++;
     else {
         word->curr_letter++;
-        word->curr_glyph = 0;
+        word->curr_cell = 0;
     }
 }
 
 void decrement_word_index(word_t* word) {
     // if you're at the first cell, reset to letter 0, glyph -1
-    if (word->curr_letter == 0 && word->curr_glyph == 0)
-        word->curr_glyph = -1;
-    // if you're partway through a letter, decrement curr_glyph
-    else if (word->curr_glyph > 0)
-        word->curr_glyph--;
+    if (word->curr_letter == 0 && word->curr_cell == 0)
+        word->curr_cell = -1;
+    // if you're partway through a letter, decrement curr_cell
+    else if (word->curr_cell > 0)
+        word->curr_cell--;
     // otherwise, decrement curr_letter
     else {
         word->curr_letter--;
         letter_t prev_letter = word->letters[word->curr_letter];
-        word->curr_glyph = prev_letter.num_cells - 1;
+        word->curr_cell = prev_letter.num_cells - 1;
     }
 }
 
@@ -279,7 +279,7 @@ void decrement_word_index(word_t* word) {
 cell_t get_next_cell_in_word(word_t* word) {
     increment_word_index(word);
     letter_t this_letter = word->letters[word->curr_letter];
-    return this_letter.cells[word->curr_glyph];
+    return this_letter.cells[word->curr_cell];
 }
 
 char* get_next_letter_name(word_t* word) {
@@ -350,7 +350,7 @@ void speak_word(word_t* word) {
         mp3name[5] = '0';
         mp3name[6] = '\0';
     }
-    play_mp3("v_", mp3name);
+    play_vocabulary(mp3name);
 }
 
 /**

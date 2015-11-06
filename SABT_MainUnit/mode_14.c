@@ -6,7 +6,7 @@
  * @BUG: Memory leak if the user exits & reenters the
  * mode, because the memory allocated for the words &
  * wordlist can't be freed when the mode is exited.
- */ 
+ */
 
 // Standard libraries
 #include <stdbool.h>
@@ -19,7 +19,7 @@
 #include "common.h"
 #include "letter_globals.h"
 #include "script_common.h"
-#include "script_english.h" 
+#include "script_english.h"
 #include "dictionary.h"
 #include "vocab.h"
 #include "mp3s.h"
@@ -45,7 +45,7 @@ void mode_14_play_stats(){
             play_feedback(MP3_WORD_AND_HAVE_MADE);
         else
             play_feedback(MP3_WORDS_AND_HAVE_MADE);
-        play_number(mistakes);  
+        play_number(mistakes);
         if (mistakes == 1)
             play_feedback(MP3_MISTAKE);
         else
@@ -111,13 +111,13 @@ void mode_14_main() {
                 break;
 
             case CANCEL:
-                log_msg("Quitting to main menu.");                    
+                log_msg("Quitting to main menu.");
                 quit_mode();
                 break;
 
             default:
                 break;
-        }        
+        }
         break;
 
     case GENERATE_QUESTION:
@@ -162,7 +162,7 @@ void mode_14_main() {
     case CHECK_ANSWER:
         mode_14_curr_cell = get_next_cell_in_word(mode_14_chosen_word);
         log_msg("Target cell: %x, inputted cell: %x.", mode_14_curr_cell, cell_pattern);
-        
+
 
         if (cell_pattern == mode_14_curr_cell) {
             if (mode_14_chosen_word->curr_letter == mode_14_chosen_word->num_letters - 1) { // done
@@ -193,7 +193,7 @@ void mode_14_main() {
         else {
             play_direction(MP3_SPELL_WORD);
             speak_word(mode_14_chosen_word);
-            if (mode_14_chosen_word->curr_glyph > -1) { // not at beginning of word
+            if (mode_14_chosen_word->curr_cell > -1) { // not at beginning of word
                 play_feedback(MP3_SPELLING_SO_FAR);
                 speak_letters_so_far(mode_14_chosen_word);
                 play_direction(MP3_NEXT_LETTER);

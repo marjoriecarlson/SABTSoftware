@@ -2,6 +2,7 @@
 #define MP3_SYSTEM     "s_"
 #define MP3_DIRECTIONS "d_"
 #define MP3_FEEDBACK   "f_"
+#define MP3_VOCABULARY "v_"
 #define MP3_ENGLISH    "e_"
 #define MP3_HINDI      "h_"
 #define MP3_KANNADA    "k_"

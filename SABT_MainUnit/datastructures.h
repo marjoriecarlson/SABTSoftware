@@ -15,6 +15,9 @@
 #define MAX_WORD_LENGTH    15
 #define MAX_WORDLIST_LENGTH 10
 
+// DEPRECATED - MOVING AWAY FROM GLYPH USAGE. PLEASE USE cells
+// OR LETTERS INSTEAD
+
 // Stores information about single glyph; used to build scripts
 struct glyph {
     char pattern;           /* 0bxxxxxx 6-bit pattern Braille representation */
@@ -23,29 +26,35 @@ struct glyph {
     glyph_t* next;          /* Pointer to next glyph in linked list */
 };
 
-// @todo: pack structs
-// @todo: work out which structs should be globals (e.g. current_word?)
+/* cell_t: the basic data type representing one braille cell
+  as a 6-bit bitfield */
+typedef unsigned char cell_t;
 
-typedef unsigned char cell_t;    // holds a 6-bit bitfield representing one braille cell
-
+/* letter: each letter has an mp3 name, an array of cells of its Braille
+   representation, and an associated language. */
 typedef struct letter {
-    cell_t*    cells; // an array of cells in that letter. In most cases, this will only be one cell.
-    uint8_t    num_cells;
-
     char       name[MAX_MP3_NAME_LENGTH];
+    cell_t*    cells; // an array of cells in that letter. Usually 1.
+    uint8_t    num_cells;
     language_t language_of_origin;
 } letter_t;
 
-typedef struct word {  // @todo Pack this
+/* word: a word consists of an mp3 name, an array of letters, and an
+   associated language. It also keeps indices into its letter array,
+   so that when a user is spelling a word, the word itself can keep
+   track of which letter and cell should come next.
+   */
+typedef struct word {
+     int        curr_letter;
+     int        curr_cell;
+     char       name[MAX_WORD_LENGTH];
+     language_t language_of_origin;
+     uint8_t    num_letters;
+
     letter_t*  letters;
-    uint8_t    num_letters;
-    // curr_letter and curr_glyph are indices used when checking input against
+    // curr_letter and curr_cell are indices used when checking input against
     // the currently selected word. The next cell we're expecting from the user
-    // is word->letters[curr_letter][curr_glyph].
-    int        curr_letter;
-    int        curr_glyph; 
-    char       name[MAX_WORD_LENGTH];
-    language_t language_of_origin;
+    // is word->letters[curr_letter][curr_cell].
 } word_t;
 
 typedef struct alphabet {
@@ -60,7 +69,7 @@ typedef struct alphabet {
 // a wordlist is shufflable. The word array doesn't change, but a second array
 // of 8-bit ints is kept, called "order", which consists of indices into words.
 // to shuffle the wordlist, "order" is shuffled. It can then be iterated through,
-// using index, to 
+// using index, to
 typedef struct wordlist {
     word_t*  words;
     int* order_of_words;
@@ -92,7 +101,7 @@ typedef struct script {
 
 typedef struct word_node {
     glyph_t* data;
-    struct word_node* next; 
+    struct word_node* next;
 } word_node_t;
 
 // @todo Remove the ones that should only be helper functions

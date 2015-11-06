@@ -158,67 +158,67 @@ cell_t ru_cells[2] 		= {ABBREV, RA};
 cell_t tra_cells[3]		= {HALANT, TA, RA};
 cell_t shra_cells[3]	= {ABBREV, SHA, RA};
 
-#define HIND_A 		{&a_cell_h, 1, "a", HINDI}
-#define HIND_AA 	{&aa_cell, 1, "aa", HINDI}
-#define HIND_I 		{&i_cell_h, 1, "i", HINDI}
-#define HIND_II 	{&ii_cell, 1, "ii", HINDI}
-#define HIND_U 		{&u_cell_h, 1, "u", HINDI}
-#define HIND_UU		{&uu_cell, 1, "uu", HINDI}
+#define HIND_A 		{"a", &a_cell_h, 1, HINDI}
+#define HIND_AA 	{"aa", &aa_cell, 1, HINDI}
+#define HIND_I 		{"i", &i_cell_h, 1, HINDI}
+#define HIND_II 	{"ii", &ii_cell, 1, HINDI}
+#define HIND_U 		{"u", &u_cell_h, 1, HINDI}
+#define HIND_UU		{"uu", &uu_cell, 1, HINDI}
 
-#define HIND_E 		{&e_cell_h, 1, "e", HINDI}
-#define HIND_AI 	{&ai_cell, 1, "ai", HINDI}
-#define HIND_O 		{&o_cell_h, 1, "o", HINDI}
-#define HIND_AU 	{&au_cell, 1, "au", HINDI}
-#define HIND_AM 	{&am_cell, 1, "am", HINDI}
-#define HIND_AHA 	{&aha_cell, 1, "aha", HINDI}
+#define HIND_E 		{"e", &e_cell_h, 1, HINDI}
+#define HIND_AI 	{"ai", &ai_cell, 1, HINDI}
+#define HIND_O 		{"o", &o_cell_h, 1, HINDI}
+#define HIND_AU 	{"au", &au_cell, 1, HINDI}
+#define HIND_AM 	{"am", &am_cell, 1, HINDI}
+#define HIND_AHA 	{"aha", &aha_cell, 1, HINDI}
 
-#define HIND_KA 	{&ka_cell, 1, "ka", HINDI}
-#define HIND_KHA 	{&kha_cell, 1, "kha", HINDI}
-#define HIND_GA 	{&ga_cell, 1, "ga", HINDI}
-#define HIND_GHA 	{&gha_cell, 1, "gha", HINDI}
-#define HIND_NNA 	{&nna_cell, 1, "nna", HINDI}
+#define HIND_KA 	{"ka", &ka_cell, 1, HINDI}
+#define HIND_KHA 	{"kha", &kha_cell, 1, HINDI}
+#define HIND_GA 	{"ga", &ga_cell, 1, HINDI}
+#define HIND_GHA 	{"gha", &gha_cell, 1, HINDI}
+#define HIND_NNA 	{"nna", &nna_cell, 1, HINDI}
 
-#define HIND_CHA 	{&cha_cell, 1, "cha", HINDI}
-#define HIND_CHHA 	{&chha_cell, 1, "chha", HINDI}
-#define HIND_JA		{&ja_cell, 1, "ja", HINDI}
-#define HIND_JHA	{&jha_cell, 1, "jha", HINDI}
-#define HIND_NYAA 	{&nyaa_cell, 1, "nyaa", HINDI}
+#define HIND_CHA 	{"cha", &cha_cell, 1, HINDI}
+#define HIND_CHHA 	{"chha", &chha_cell, 1, HINDI}
+#define HIND_JA		{"ja", &ja_cell, 1, HINDI}
+#define HIND_JHA	{"jha", &jha_cell, 1, HINDI}
+#define HIND_NYAA 	{"nyaa", &nyaa_cell, 1, HINDI}
 
-#define HIND_TTA 	{&tta_cell, 1, "tta", HINDI}
-#define HIND_TTHA 	{&ttha_cell, 1, "ttha", HINDI}
-#define HIND_DDA 	{&dda_cell, 1, "dda", HINDI}
-#define HIND_DDHA 	{&ddha_cell, 1, "ddha", HINDI}
-#define HIND_GNA 	{&gna_cell, 1, "gna", HINDI}
+#define HIND_TTA 	{"tta", &tta_cell, 1, HINDI}
+#define HIND_TTHA 	{"ttha", &ttha_cell, 1, HINDI}
+#define HIND_DDA 	{"dda", &dda_cell, 1, HINDI}
+#define HIND_DDHA 	{"ddha", &ddha_cell, 1, HINDI}
+#define HIND_GNA 	{"gna", &gna_cell, 1, HINDI}
 
-#define HIND_TA 	{&ta_cell, 1, "ta", HINDI}
-#define HIND_THA 	{&tha_cell, 1, "tha", HINDI}
-#define HIND_DA 	{&da_cell, 1, "da", HINDI}
-#define HIND_DHA 	{&dha_cell, 1, "dha", HINDI}
-#define HIND_NA 	{&na_cell, 1, "na", HINDI}
+#define HIND_TA 	{"ta", &ta_cell, 1, HINDI}
+#define HIND_THA 	{"tha", &tha_cell, 1, HINDI}
+#define HIND_DA 	{"da", &da_cell, 1, HINDI}
+#define HIND_DHA 	{"dha", &dha_cell, 1, HINDI}
+#define HIND_NA 	{"na", &na_cell, 1, HINDI}
 
-#define HIND_PA 	{&pa_cell, 1, "pa", HINDI}
-#define HIND_PHA 	{&pha_cell, 1, "pha", HINDI}
-#define HIND_BA 	{&ba_cell, 1, "ba", HINDI}
-#define HIND_BHA 	{&bha_cell, 1, "bha", HINDI}
-#define HIND_MA 	{&ma_cell, 1, "ma", HINDI}
+#define HIND_PA 	{"pa", &pa_cell, 1, HINDI}
+#define HIND_PHA 	{"pha", &pha_cell, 1, HINDI}
+#define HIND_BA 	{"ba", &ba_cell, 1, HINDI}
+#define HIND_BHA 	{"bha", &bha_cell, 1, HINDI}
+#define HIND_MA 	{"ma", &ma_cell, 1, HINDI}
 
-#define HIND_YA 	{&ya_cell, 1, "ya", HINDI}
-#define HIND_RA 	{&ra_cell, 1, "ra", HINDI}
-#define HIND_LA 	{&la_cell, 1, "la", HINDI}
-#define HIND_VA 	{&va_cell, 1, "va", HINDI}
+#define HIND_YA 	{"ya", &ya_cell, 1, HINDI}
+#define HIND_RA 	{"ra", &ra_cell, 1, HINDI}
+#define HIND_LA 	{"la", &la_cell, 1, HINDI}
+#define HIND_VA 	{"va", &va_cell, 1, HINDI}
 
-#define HIND_SHA 	{&sha_cell, 1, "sha", HINDI}
-#define HIND_SHHA 	{&shha_cell, 1, "shha", HINDI}
-#define HIND_SA 	{&sa_cell, 1, "sa", HINDI}
-#define HIND_HA 	{&ha_cell, 1, "ha", HINDI}
+#define HIND_SHA 	{"sha", &sha_cell, 1, HINDI}
+#define HIND_SHHA 	{"shha", &shha_cell, 1, HINDI}
+#define HIND_SA 	{"sa", &sa_cell, 1, HINDI}
+#define HIND_HA 	{"ha", &ha_cell, 1, HINDI}
 
 // A few of the combination consonants.
 // This is not an exhaustive list.
-#define HIND_KSHA 	{&ksha_cell, 1, "ksha", HINDI}
-#define HIND_TRA 	{tra_cells, 3, "tra", HINDI}
-#define HIND_JNA 	{&jna_cell, 1, "jna", HINDI}
-#define HIND_SHRA 	{shra_cells, 3, "shra", HINDI}
-#define HIND_RU		{ru_cells, 2, "ru", HINDI}
+#define HIND_KSHA 	{"ksha", &ksha_cell, 1, HINDI}
+#define HIND_TRA 	{"tra", tra_cells, 3, HINDI}
+#define HIND_JNA 	{"jna", &jna_cell, 1, HINDI}
+#define HIND_SHRA 	{"shra", shra_cells, 3, HINDI}
+#define HIND_RU		{"ru", ru_cells, 2, HINDI}
 
 letter_t hindi_letters[50] = {
 	HIND_A, HIND_AA, HIND_I, HIND_II, HIND_U,

@@ -1,7 +1,7 @@
 /**
  * @file common.c
- * @brief Definitions for some common library functions
- * @author Vivek Nair (viveknair@cmu.edu)
+ * @brief Definitions for some common functions used by multiple modes.
+ * @author Vivek Nair (viveknair@cmu.edu), Marjorie Carlson (marjorie@cmu.edu)
  */
 
 #include <stdbool.h>
@@ -14,9 +14,9 @@
 #include "script_english.h"
 #include "script_digits.h"
 #include "datastructures.h"
-#include "mode_15.h"
+// #include "mode_15.h"
 
-letter_t blank_letter = { &no_cell, 0, "NULL", LANGUAGE_NULL };
+letter_t blank_letter = { "NULL", &no_cell, 0, LANGUAGE_NULL };
 
 language_t set_language() {
   if (current_mode == 7) {
@@ -57,35 +57,12 @@ void reset_stats(){
 }
 
 /**
- * @brief Generates a pseudo-random integer based on the system timer
- * @param void
- * @return int - Pseudo-random value
- */
-int timer_rand(void) {
-    #ifdef DEBUGMODE
-        return rand();
-    #else
-        return TCNT1 * 53;
-    #endif
-}
-
-/**
- * @brief Adds a dot to a bit pattern representing a cell
- * @param char bits - Old bit pattern
- * @param char dot - Dot to add
- * @return char - New bit pattern
- */
-char add_dot(char bits, char dot) {
-    return (bits | 1 << (CHARTOINT(dot) - 1));
-}
-
-/**
  * @brief Quits the current mode and returns to the main menu
  * @param void
  * @return void
  */
 void quit_mode(void) {
-    // @todo HACK TO FREE MEMORY MALLOCED IN MODE 15. RETEST THIS. 
+    // @todo HACK TO FREE MEMORY MALLOCED IN MODE 15. RETEST THIS.
 /*    if (current_mode == 15) {
         log_msg("Freeing dictionary.");
         free_wordlist(&mode_15_dict);
@@ -96,51 +73,19 @@ void quit_mode(void) {
 }
 
 /**
-* @brief Returns 10^n
-* @param int n - Power
-* @return int - 10^n
-*/
-long ten_to_the(int n) {
-    int res = 1;
-    if (n < 0)
-        return 0;
-    else {
-        while (n > 0) {
-            res *= 10;
-            n--;
-        }
-        return res;
-    }
-}
-
-/**
-* @brief Gets number of digits
-* @param int - Number to determine number of digits for
-* @return int - Number of digits
-*/
-int get_num_of_digits(long number) {
-    if (number < 0)
-        number = -number;
-    int digits = 0;
-    while (number != 0) {
-        number = number / 10;
-        digits++;
-    }
-    return digits;
-}
-
-/**
- * @brief  Given a char, in cell, play the corresponding number
- *         sound file
- *          NOTE: Deprecated
- * @return Void
+ * @brief Generates a pseudo-random integer based on the system timer
+ * @param void
+ * @return int - Pseudo-random value
+ * @BUG - Doesn't change between runs.
  */
-
-void play_requested_dot(char play_dot) {
-    char req_mp3[10];
-    sprintf((char*)req_mp3, "dot_%c", play_dot);
-    play_mp3(NULL,req_mp3);
+int timer_rand(void) {
+    #ifdef DEBUGMODE // crosscompiled on x86
+        return rand();
+    #else
+        return TCNT1 * 53;
+    #endif
 }
+
 
 
 /**

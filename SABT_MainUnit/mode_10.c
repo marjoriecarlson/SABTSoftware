@@ -26,6 +26,19 @@ static glyph_t* g2;
 static char cell1_pattern;
 static char cell2_pattern;
 
+
+/**
+ * @brief  Given a char, in cell, play the corresponding number sound file
+ *          NOTE: Deprecated
+ * @return Void
+ */
+
+void play_requested_dot(char play_dot) {
+    char req_mp3[10];
+    sprintf((char*)req_mp3, "dot_%c", play_dot);
+    play_mp3(NULL,req_mp3);
+}
+
 void mode_10_main() {
 
  switch(current_state) {

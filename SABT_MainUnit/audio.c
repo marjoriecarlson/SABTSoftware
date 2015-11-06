@@ -1,7 +1,7 @@
 /**
  * @file audio.c
- * @brief Audio library
- * @author Vivek Nair (viveknair@cmu.edu)
+ * @brief Functions to play mp3s from the SD card.
+ * @author Vivek Nair (viveknair@cmu.edu), Marjorie Carlson (marjorie@cmu.edu)
  */
 
 #include <stdio.h>
@@ -38,6 +38,8 @@ static short playlist_index = 0;
 
 /**
  *  @brief Tries to queue the requested MP3 file to the playlist
+ * This is the basic helper function used by many other functions to
+ * play the mp3 associated with a specific letter.
  *  @param char* fileset - (optional) Pointer to fileset
  *  @param char* mp3 - Pointer to MP3 filename
  *  @return bool - True if file was added, false if queue is full or error
@@ -72,16 +74,6 @@ bool play_mp3(char* fileset, char* mp3) {
 }
 
 
-/**
-* @brief Clears MP3 playlist
-* @param void
-* @return void
-*/
-void clear_playlist(void) {
-    playlist_empty = true;
-    playlist_size = 0;
-    playlist_index = 0;
-}
 
 /**
  * @brief Plays next queued MP3 file. Only called when queue is not empty.
@@ -107,8 +99,19 @@ void play_next_mp3(void) {
         clear_playlist();
 }
 
+/**
+* @brief Clears MP3 playlist
+* @param void
+* @return void
+*/
+void clear_playlist(void) {
+    playlist_empty = true;
+    playlist_size = 0;
+    playlist_index = 0;
+}
 
-//////// @todo: eliminate these
+
+//////// @todo: eliminate these once we no longer use glyphs
 
 /**
  * @brief Play sound file corresponding to an glyph, checks for NULL arg
@@ -118,6 +121,30 @@ void play_next_mp3(void) {
 void play_glyph(glyph_t *this_glyph) {
     if (this_glyph != NULL)
         play_lang_audio(this_glyph->sound);
+}
+
+/**
+ * @brief Play dot sequence corresponding to a glyph, checks for NULL arg
+ * @param glyph_t *this_glyph - glyph to play dot sequence for
+ * @return void
+ */
+void play_dot_sequence(glyph_t *this_glyph) {
+    char pattern; 
+    if (this_glyph != NULL) {
+        pattern = this_glyph->pattern;
+        play_cell(pattern);
+
+        // for multi-cell letters
+        if (this_glyph->next != NULL) {
+            // Plays all the next glyphs in the linked list
+            log_msg("[Audio] Playing next pattern: %s",
+                this_glyph->next->sound);
+            // play "ENTER" so user knows to press enter btwn multiple-cell letters
+            play_lang_audio(MP3_DOT_E);
+            play_dot_sequence(this_glyph->next);
+        }
+    } else
+        play_lang_audio(MP3_INVALID_PATTERN);
 }
 
 /**
@@ -132,6 +159,50 @@ void play_word(word_node_t *this_word) {
     }
 }
 
+/**
+* @brief Plays a NULL-terminated array of glyphs
+* @param glyph_t* - Pointer to line
+* @return void
+*/
+void play_line(glyph_t** line) {
+    glyph_t* curr_glyph = NULL;
+    for (int i = 0; i < MAX_BUF_SIZE; i++) {
+        curr_glyph = line[i];
+        if (curr_glyph)
+            play_glyph(curr_glyph);
+        else
+            return;
+    }
+}
+
+// the following use the newer data structures
+
+/**
+ * @brief Queues dot sound file
+ * @param char* fileset - Language fileset for dot numbers
+ * @param char dot - Dot to play
+ * @return void
+ */
+void play_dot(char dot) {
+    char dotname[6];
+    switch (dot) {
+        case '1': case '2': case '3': case '4': case '5': case '6':
+            break;
+        case ENTER:
+            dot = 'e';
+            break;
+        case CANCEL:
+            dot = 'c';
+            break;
+        case LEFT: case RIGHT: case NO_DOTS:
+            return;
+        default:
+            log_msg("[Audio] Invalid dot: %c", dot);
+            break;
+    }
+    sprintf(dotname, "dot_%c", dot);
+    play_lang_audio(dotname);
+}
 
 
 /**
@@ -159,33 +230,45 @@ void play_cell(cell_t pattern) {
     }
 }
 
-/**
- * @brief Play dot sequence corresponding to a glyph, checks for NULL arg
- * @param glyph_t *this_glyph - glyph to play dot sequence for
- * @return void
- */
-void play_dot_sequence(glyph_t *this_glyph) {
-    char pattern; 
-    if (this_glyph != NULL) {
-        pattern = this_glyph->pattern;
-        play_cell(pattern);
 
-        // for multi-cell letters
-        if (this_glyph->next != NULL) {
-            // Plays all the next glyphs in the linked list
-            log_msg("[Audio] Playing next pattern: %s",
-                this_glyph->next->sound);
-            // play "ENTER" so user knows to press enter btwn multiple-cell letters
-            play_lang_audio(MP3_DOT_E);
-            play_dot_sequence(this_glyph->next);
+// ten_to_the and get_num_of_digits: helper functions for play_number
+/**
+* @brief Returns 10^n
+* @param int n - Power
+* @return int - 10^n
+*/
+long ten_to_the(int n) {
+    int res = 1;
+    if (n < 0)
+        return 0;
+    else {
+        while (n > 0) {
+            res *= 10;
+            n--;
         }
-    } else
-        play_lang_audio(MP3_INVALID_PATTERN);
+        return res;
+    }
+}
+
+/**
+* @brief Gets number of digits
+* @param int - Number to determine number of digits for
+* @return int - Number of digits
+*/
+int get_num_of_digits(long number) {
+    if (number < 0)
+        number = -number;
+    int digits = 0;
+    while (number != 0) {
+        number = number / 10;
+        digits++;
+    }
+    return digits;
 }
 
 /** 
     @brief Plays number
-    @param int number - Number to be played. Must be under between -9,999 and
+    @param int number - Number to be played. Must be between -9,999 and
     9,999
     @return void
 */
@@ -285,21 +368,14 @@ void play_number(long number) {
     }
 }
 
-/**
-* @brief Plays a NULL-terminated array of glyphs
-* @param glyph_t* - Pointer to line
-* @return void
+
+/*
+* @ brief Iterates through the characters in a string and
+* plays the mp3 associated with each character. ONLY WORKS
+* IN ENGLISH.
+* @param A string and its length
+* @returns void
 */
-void play_line(glyph_t** line) {
-    glyph_t* curr_glyph = NULL;
-    for (int i = 0; i < MAX_BUF_SIZE; i++) {
-        curr_glyph = line[i];
-        if (curr_glyph)
-            play_glyph(curr_glyph);
-        else
-            return;
-    }
-}
 
 void play_string(char* word, int word_len){
     for (int i = 0; i < word_len; i++){
@@ -318,15 +394,15 @@ void play_string(char* word, int word_len){
 * play different kinds of audio files to users.
 */
 
-// Plays mode-specific audio (m#_<dir>.mp3)
-void play_mode_audio(char* dir) {
+// Plays mode-specific audio (m#_<filename>.mp3)
+void play_mode_audio(char* filename) {
     char md[5];
     sprintf(md, "m%d_", current_mode);
-    play_mp3(md, dir);
+    play_mp3(md, filename);
 }
 
-// Plays mode-specific audio (m#_<dir>.mp3)
-void play_lang_audio(char* dir) {
+// Plays mode-specific audio (m#_<filename>.mp3)
+void play_lang_audio(char* filename) {
     char md[3];
     switch (mode_language) {
         case HINDI:
@@ -340,12 +416,26 @@ void play_lang_audio(char* dir) {
             sprintf(md, "e_");
             break;
     }
-    play_mp3(md, dir);
+    play_mp3(md, filename);
 }
 
-// Plays the requested system audio (s_<dir>.mp3)
-void play_system_audio(char* dir) {
-    play_mp3(MP3_SYSTEM, dir);
+// Plays the requested system audio (s_<filename>.mp3)
+void play_system_audio(char* filename) {
+    play_mp3(MP3_SYSTEM, filename);
+}
+
+// Plays the requested directions (d_<dir>.mp3)
+void play_direction(char* dir) {
+    play_mp3(MP3_DIRECTIONS, dir);
+}
+
+// Plays the requested feedback (f_<dir>.mp3)
+void play_feedback(char* dir) {
+    play_mp3(MP3_FEEDBACK, dir);
+}
+
+void play_vocabulary(char* dir) {
+    play_mp3(MP3_VOCABULARY, dir);
 }
 
 // Plays the mode's welcome mp3 (m#_welc.mp3)
@@ -362,16 +452,6 @@ void play_submode_choice() {
     char md[5];
     sprintf(md, "m%d_", current_mode);
     play_mp3(md, MP3_SUBMODE);
-}
-
-// Plays the requested directions (d_<dir>.mp3)
-void play_direction(char* dir) {
-    play_mp3(MP3_DIRECTIONS, dir);
-}
-
-// Plays the requested feedback (f_<dir>.mp3)
-void play_feedback(char* dir) {
-    play_mp3(MP3_FEEDBACK, dir);
 }
 
 // Plays the tada noise (s_tada.mp3)
@@ -404,29 +484,3 @@ void play_silence(int milliseconds) {
     }
 }
 
-/**
- * @brief Queues dot sound file
- * @param char* fileset - Language fileset for dot numbers
- * @param char dot - Dot to play
- * @return void
- */
-void play_dot(char dot) {
-    char dotname[6];
-    switch (dot) {
-        case '1': case '2': case '3': case '4': case '5': case '6':
-            break;
-        case ENTER:
-            dot = 'e';
-            break;
-        case CANCEL:
-            dot = 'c';
-            break;
-        case LEFT: case RIGHT: case NO_DOTS:
-            return;
-        default:
-            log_msg("[Audio] Invalid dot: %c", dot);
-            break;
-    }
-    sprintf(dotname, "dot_%c", dot);
-    play_lang_audio(dotname);
-}

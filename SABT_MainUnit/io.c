@@ -101,6 +101,16 @@ char get_dot(void) {
 }
 
 /**
+ * @brief Adds a dot to a bit pattern representing a cell
+ * @param char bits - Old bit pattern
+ * @param char dot - Dot to add
+ * @return char - New bit pattern
+ */
+char add_dot(char bits, char dot) {
+    return (bits | 1 << (CHARTOINT(dot) - 1));
+}
+
+/**
 *   @brief Gets current cell
 * @param void
 * @return char - Cell pattern with 2 MSB as controls for ENTER, LEFT, RIGHT

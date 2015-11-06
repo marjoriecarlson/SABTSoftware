@@ -24,7 +24,7 @@
 #include "common.h"
 #include "letter_globals.h"
 #include "script_common.h"
-#include "script_english.h" 
+#include "script_english.h"
 #include "dictionary.h"
 #include "vocab.h"
 #include "mp3s.h"
@@ -74,7 +74,7 @@ void play_stats(){
             play_feedback(MP3_WORD_AND_HAVE_MADE);
         else
             play_feedback(MP3_WORDS_AND_HAVE_MADE);
-        play_number(mistakes);   
+        play_number(mistakes);
         if (mistakes == 1)
             play_feedback(MP3_MISTAKE);
         else
@@ -157,7 +157,7 @@ void mode_15_main() {
                 break;
 
             case CANCEL:
-                log_msg("Quitting to main menu.");                    
+                log_msg("Quitting to main menu.");
                 quit_mode();
                 break;
 
@@ -256,7 +256,7 @@ void mode_15_main() {
                 play_cell(curr_cell);
         }
 
-        else if (chosen_word->curr_glyph > -1) { // not at beginning of word
+        else if (chosen_word->curr_cell > -1) { // not at beginning of word
             play_feedback(MP3_SPELLING_SO_FAR);
             speak_letters_so_far(chosen_word);
         }

@@ -21,6 +21,9 @@
 #define UI_CMD_VOLU 5
 #define UI_CMD_VOLD 6
 
+#define SENDBYTE(msg)  usart_transmit_byte_to_pc((unsigned char)msg)
+#define NEWLINE log_msg("\n\r");
+
 //Dealing with the user data
 void ui_check_modes(void);
 uint16_t ui_calculate_crc(unsigned char* message);

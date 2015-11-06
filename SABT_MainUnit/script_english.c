@@ -76,33 +76,33 @@ cell_t z_cell = DOT_1 | DOT_3 | DOT_5 | DOT_6;
 cell_t cap_cell = DOT_6;
 cell_t no_cell = NO_DOTS;
 
-#define ENGL_A {&a_cell, 1, "a", ENGLISH}
-#define ENGL_B {&b_cell, 1, "b", ENGLISH}
-#define ENGL_C {&c_cell, 1, "c", ENGLISH}
-#define ENGL_D {&d_cell, 1, "d", ENGLISH}
-#define ENGL_E {&e_cell, 1, "e", ENGLISH}
-#define ENGL_F {&f_cell, 1, "f", ENGLISH}
-#define ENGL_G {&g_cell, 1, "g", ENGLISH}
-#define ENGL_H {&h_cell, 1, "h", ENGLISH}
-#define ENGL_I {&i_cell, 1, "i", ENGLISH}
-#define ENGL_J {&j_cell, 1, "j", ENGLISH}
-#define ENGL_K {&k_cell, 1, "k", ENGLISH}
-#define ENGL_L {&l_cell, 1, "l", ENGLISH}
-#define ENGL_M {&m_cell, 1, "m", ENGLISH}
-#define ENGL_N {&n_cell, 1, "n", ENGLISH}
-#define ENGL_O {&o_cell, 1, "o", ENGLISH}
-#define ENGL_P {&p_cell, 1, "p", ENGLISH}
-#define ENGL_Q {&q_cell, 1, "q", ENGLISH}
-#define ENGL_R {&r_cell, 1, "r", ENGLISH}
-#define ENGL_S {&s_cell, 1, "s", ENGLISH}
-#define ENGL_T {&t_cell, 1, "t", ENGLISH}
-#define ENGL_U {&u_cell, 1, "u", ENGLISH}
-#define ENGL_V {&v_cell, 1, "v", ENGLISH}
-#define ENGL_W {&w_cell, 1, "w", ENGLISH}
-#define ENGL_X {&x_cell, 1, "x", ENGLISH}
-#define ENGL_Y {&y_cell, 1, "y", ENGLISH}
-#define ENGL_Z {&z_cell, 1, "z", ENGLISH}
-#define ENGL_CAP {&cap_cell, 1, "capital", ENGLISH}
+#define ENGL_A {"a", &a_cell, 1, ENGLISH}
+#define ENGL_B {"b", &b_cell, 1, ENGLISH}
+#define ENGL_C {"c", &c_cell, 1, ENGLISH}
+#define ENGL_D {"d", &d_cell, 1, ENGLISH}
+#define ENGL_E {"e", &e_cell, 1, ENGLISH}
+#define ENGL_F {"f", &f_cell, 1, ENGLISH}
+#define ENGL_G {"g", &g_cell, 1, ENGLISH}
+#define ENGL_H {"h", &h_cell, 1, ENGLISH}
+#define ENGL_I {"i", &i_cell, 1, ENGLISH}
+#define ENGL_J {"j", &j_cell, 1, ENGLISH}
+#define ENGL_K {"k", &k_cell, 1, ENGLISH}
+#define ENGL_L {"l", &l_cell, 1, ENGLISH}
+#define ENGL_M {"m", &m_cell, 1, ENGLISH}
+#define ENGL_N {"n", &n_cell, 1, ENGLISH}
+#define ENGL_O {"o", &o_cell, 1, ENGLISH}
+#define ENGL_P {"p", &p_cell, 1, ENGLISH}
+#define ENGL_Q {"q", &q_cell, 1, ENGLISH}
+#define ENGL_R {"r", &r_cell, 1, ENGLISH}
+#define ENGL_S {"s", &s_cell, 1, ENGLISH}
+#define ENGL_T {"t", &t_cell, 1, ENGLISH}
+#define ENGL_U {"u", &u_cell, 1, ENGLISH}
+#define ENGL_V {"v", &v_cell, 1, ENGLISH}
+#define ENGL_W {"w", &w_cell, 1, ENGLISH}
+#define ENGL_X {"x", &x_cell, 1, ENGLISH}
+#define ENGL_Y {"y", &y_cell, 1, ENGLISH}
+#define ENGL_Z {"z", &z_cell, 1, ENGLISH}
+#define ENGL_CAP {"capital", &cap_cell, 1, ENGLISH}
 
 letter_t eng_cap = ENGL_CAP;
 
